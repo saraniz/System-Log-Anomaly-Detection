@@ -1,0 +1,47 @@
+## OS files
+.DS_Store
+Thumbs.db
+
+## Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+## Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+## Tool caches and test output
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+
+## Packaging and build artifacts
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+## Notebook checkpoints
+.ipynb_checkpoints/
+
+## Local configuration and logs
+.env
+.env.*
+*.log
+
+## Generated project outputs
+models/*.joblib
+models/*.sav
+models/*.h5
+models/*.pt
+models/*.onnx
+

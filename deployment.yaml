@@ -1,0 +1,36 @@
+apiVersion: apps/v1 # Tells Kubernetes which API group and version to use for this resource.apps → API group, v1 → version
+kind: Deployment  # Specifies the type of Kubernetes object being created.
+metadata:  # contain information about the resource
+  name: anomaly-api-deployment  # The unique name of this Deployment inside the namespace.kubernetes use this for identify
+  labels:  # Labels are key-value pairs attached to resources.Labels allow Kubernetes resources to find each other.
+    app: anomaly-api 
+
+# This section is the Deployment specification (spec), which tells Kubernetes how many Pods to run and what those Pods should look like.
+spec:
+  replicas: 2  # number of pods should keep running always
+
+  selector: # selector tell the deployment to manage all pods that have the label app: anomaly-api
+    matchLabels:
+      app: anomaly-api
+
+  template: # blueprint for creating pods
+    metadata:
+      labels: # every pod that is created attached this label
+        app: anomaly-api
+
+    spec: # pods configuration
+      containers: # describe which container run the pods. A Pod can contain one or more containers.
+        - name: anomaly-api # The - means an item in a list. Container identifier inside the Pod.
+          image: anomaly-api:latest  # docker image to run
+          imagePullPolicy: IfNotPresent # Use local image if available. Download only if missing."
+
+          ports:
+            - containerPort: 8000 # application listens on port 8000 inside the container.
+
+          resources: # Defines CPU and memory requirements.
+            requests: # Minimum resources needed.
+              memory: "256Mi"
+              cpu: "250m"
+            limits: # Maximum resources allowed.
+              memory: "512Mi"
+              cpu: "500m"
