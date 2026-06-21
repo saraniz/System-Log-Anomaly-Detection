@@ -35,10 +35,13 @@ def prepare_data(df):
     }
 
     if "Level" in X.columns:
-        X["Level"] = X["Level"].map(level_map)
+        X["Level"] = X["Level"].map(level_map).fillna(0)
 
     # Convert remaining categorical columns using one-hot encoding
     X = pd.get_dummies(X)
+
+    training_columns = X.columns
+    joblib.dump(training_columns, SAVE_MODEL_PATH.parent / "columns.pkl")
 
     return X
 
@@ -54,7 +57,7 @@ def train_model(X):
         #     higher value → more anomalies detected
         #     lower value → fewer anomalies detected
         # expected proportion of anomalies in dataset
-        contamination=0.05,
+        contamination=0.1,
 
         # ensures reproducibility
         random_state=42
@@ -109,4 +112,8 @@ if __name__ == "__main__":
 
     # 5. Save model
     save_model(model, SAVE_MODEL_PATH)
+
+    print("Shape:", X.shape)
+    print("Missing values:", X.isna().sum().sum())
+    print(X.describe())
 

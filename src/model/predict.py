@@ -6,7 +6,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_PATH = BASE_DIR / "data" / "processed" / "feature.csv"
 SAVE_MODEL_PATH = BASE_DIR / "models" / "isolation_model.pkl"
-
+columns = joblib.load(SAVE_MODEL_PATH.parent / "columns.pkl")
 
 def load_model(path):
     """
@@ -68,19 +68,23 @@ def prepare_data(df):
     # One-hot encode remaining categorical columns
     # -------------------------
     df = pd.get_dummies(df)
+    df = df.reindex(columns=columns, fill_value=0)
 
     return df
 
 
 def predict(model, X):
-    """
-    Run anomaly detection
-    """
 
+    # 1. Get predictions first (NO modification of X before this)
     predictions = model.predict(X)
 
-    # 1 = normal, -1 = anomaly
+    # 2. Get anomaly scores
+    scores = model.decision_function(X)
+
+    # 3. Attach results AFTER prediction
+    X = X.copy()
     X["prediction"] = predictions
+    X["score"] = scores
 
     return X
 

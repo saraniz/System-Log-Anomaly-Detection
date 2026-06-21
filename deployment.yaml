@@ -21,7 +21,7 @@ spec:
     spec: # pods configuration
       containers: # describe which container run the pods. A Pod can contain one or more containers.
         - name: anomaly-api # The - means an item in a list. Container identifier inside the Pod.
-          image: anomaly-api:latest  # docker image to run
+          image: amiezz/anomaly-api:latest  # docker image to run
           imagePullPolicy: IfNotPresent # Use local image if available. Download only if missing."
 
           ports:
