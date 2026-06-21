@@ -65,6 +65,6 @@ crash.log
 .DS_Store
 Thumbs.db
 
-# Python ignore thinngs
+# Python ignore things
 __pycache__/
 *.pyc
