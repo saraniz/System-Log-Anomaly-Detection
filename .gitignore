@@ -45,3 +45,26 @@ models/*.h5
 models/*.pt
 models/*.onnx
 
+*.pem
+anomaly-key.pem
+
+# Terraform
+terrarform/.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+*.tfvars
+
+# Terraform lock is OK but optional
+# *.lock.hcl
+
+# AWS keys
+*.pem
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
