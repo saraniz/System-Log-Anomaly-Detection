@@ -37,7 +37,18 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ secrets.DOCKER_USERNAME }}/anomaly-api:latest
-            docker stop anomaly-api || true
-            docker rm anomaly-api || true
-            docker run -d -p 8000:8000 --name anomaly-api ${{ secrets.DOCKER_USERNAME }}/anomaly-api:latest
+              docker pull ${{ secrets.DOCKERHUB_USERNAME }}/anomaly-api:latest
+
+              # remove old named container if it exists
+              docker rm -f anomaly-api || true
+
+              # kill anything using port 8000 (important fix)
+              docker ps -q --filter "publish=8000" | xargs -r docker stop
+              docker ps -aq --filter "publish=8000" | xargs -r docker rm
+
+              # start fresh container
+              docker run -d \
+                --restart unless-stopped \
+                -p 8000:8000 \
+                --name anomaly-api \
+                ${{ secrets.DOCKERHUB_USERNAME }}/anomaly-api:latest
