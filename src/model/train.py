@@ -57,7 +57,7 @@ def train_model(X):
         #     higher value → more anomalies detected
         #     lower value → fewer anomalies detected
         # expected proportion of anomalies in dataset
-        contamination=0.1,
+        contamination=0.2,
 
         # ensures reproducibility
         random_state=42
